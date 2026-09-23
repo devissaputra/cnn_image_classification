@@ -1,49 +1,57 @@
-# Convolutional Neural Network: Scientific-Style Technical Report
+# Convolutional Neural Network for Handwritten Digits
 
-**Status:** reproducible portfolio report, not peer reviewed.  
-**Difficulty:** ★★★★  
-**Dataset:** Optical Recognition of Handwritten Digits dataset
+## Question
 
-## Abstract
-This project studies a concrete AI Engineering problem using a real public dataset and a fully inspectable pipeline. The project focuses on PyTorch, CNN, computer vision, training loop. Its central engineering goal is to make data preparation, model fitting, evaluation, and limitations reproducible rather than treating the model as a black box.
+Can a small convolutional network use the spatial structure of 8 × 8 digit images effectively without becoming a large computer-vision project?
 
-## 1. Research objective
-Train a compact PyTorch CNN on real handwritten digit images with explicit batching and evaluation.
+## Data
 
-## 2. Data
-The dataset is **Optical Recognition of Handwritten Digits dataset**. Provenance and the original reference are documented in [`DATA.md`](../DATA.md).
+I use scikit-learn's digits dataset with a stratified 75/25 train/test split.
 
-## 3. Method
-The implemented pipeline is:
-1. Load digits
-2. Normalize images
-3. Batch tensors
-4. CNN
-5. Confusion analysis
+Pixel values are divided by 16 and reshaped to `1 × 8 × 8` tensors.
 
-## 4. Evaluation
-**Primary metric(s):** Accuracy / macro F1.  
-**Validation design:** stratified hold-out.  
-The experiment saves machine-readable metrics and visual diagnostics so claims can be traced to an executable run.
+## Method
 
-## 5. Results
-Generated metrics:
-```json
-{
-  "accuracy": 0.96,
-  "macro_f1": 0.9596695483330727,
-  "epochs": 14
-}
+The PyTorch model is:
+
+```text
+Conv2d 1→16
+ReLU
+MaxPool
+Conv2d 16→32
+ReLU
+MaxPool
+Flatten 128
+Linear 128→10
 ```
 
-## 6. Limitations and validity
-Key concern: small spatial resolution. Benchmark performance on one dataset does not imply universal performance. The project is intended to demonstrate research engineering discipline and to provide a base for stronger comparative studies.
+Training uses mini-batches of 64, Adam with learning rate 0.003, cross-entropy loss, and 14 epochs.
 
-## 7. Reproducibility
-Run `python src/run_experiment.py` from the repository root after installing `requirements.txt`.
+## Results
 
-## 8. Next research extension
-Add repeated cross-validation or temporal/external validation, stronger baselines, hyperparameter sensitivity, confidence intervals, and a domain-specific error analysis.
+The recorded run produced:
 
-## References
-- Dataset/reference page: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html
+| Metric | Result |
+|---|---:|
+| Accuracy | 0.9600 |
+| Macro-F1 | 0.9597 |
+| Epochs | 14 |
+
+## Interpretation
+
+Accuracy and macro-F1 are nearly the same, so the model performs consistently across the ten classes in the recorded run.
+
+The result is close to the MLP result. That is not surprising on such a small and clean image dataset. The main value of this project is understanding the convolutional pipeline rather than claiming a large performance gain.
+
+## Limitations
+
+The dataset is small, the network is intentionally compact, and the experiment uses one split. Small numerical differences can also appear across PyTorch and CPU-library versions.
+
+A stronger comparison would run both MLP and CNN models across several seeds with the same evaluation protocol.
+
+## Reproduce
+
+```bash
+pip install -r requirements.txt
+python src/run_experiment.py
+```
