@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/devissaputra/cnn_image_classification/actions/workflows/ci.yml/badge.svg)](https://github.com/devissaputra/cnn_image_classification/actions/workflows/ci.yml)
 
+
+**Category:** AI Engineering
 ![Project overview](assets/01_cover.svg)
 
 A compact PyTorch image-classification experiment that asks whether preserving **2D spatial structure** helps beyond a strong flattened linear baseline.
