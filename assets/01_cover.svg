@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+<rect width="1200" height="675" fill="#f8fafc"/><rect x="40" y="40" width="1120" height="595" rx="28" fill="#fff" stroke="#dbeafe" stroke-width="3"/>
+<text x="85" y="125" font-family="Arial" font-size="24" fill="#2563eb" font-weight="700">AI ENGINEERING • PROJECT 07 • ★★★★</text>
+<text x="85" y="205" font-family="Arial" font-size="54" fill="#0f172a" font-weight="700">Convolutional Neural Network</text>
+<text x="85" y="260" font-family="Arial" font-size="26" fill="#475569">Compact PyTorch CNN for handwritten digit recognition</text>
+<rect x="85" y="325" width="245" height="115" rx="18" fill="#eff6ff"/><text x="112" y="367" font-family="Arial" font-size="20" fill="#1d4ed8" font-weight="700">INPUT</text><text x="112" y="404" font-family="Arial" font-size="20" fill="#334155">1×8×8 image</text>
+<rect x="360" y="325" width="245" height="115" rx="18" fill="#ecfeff"/><text x="387" y="367" font-family="Arial" font-size="20" fill="#155e75" font-weight="700">FEATURE MAPS</text><text x="387" y="404" font-family="Arial" font-size="20" fill="#334155">16 → 32 channels</text>
+<rect x="635" y="325" width="245" height="115" rx="18" fill="#faf5ff"/><text x="662" y="367" font-family="Arial" font-size="20" fill="#7e22ce" font-weight="700">TRAINING</text><text x="662" y="404" font-family="Arial" font-size="20" fill="#334155">Adam • 14 epochs</text>
+<rect x="910" y="325" width="205" height="115" rx="18" fill="#f0fdf4"/><text x="937" y="367" font-family="Arial" font-size="20" fill="#15803d" font-weight="700">RESULT</text><text x="937" y="404" font-family="Arial" font-size="20" fill="#334155">96.0% accuracy</text>
+<text x="85" y="535" font-family="Arial" font-size="23" fill="#334155">Research question</text>
+<text x="85" y="575" font-family="Arial" font-size="25" fill="#0f172a" font-weight="600">How much can spatial convolution improve compact digit-image classification?</text>
+</svg>
