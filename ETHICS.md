@@ -1,5 +1,7 @@
-# Ethics and Responsible Use
+# Ethics and Limits
 
-This project is a research and learning artifact. Its models are not intended for autonomous high-stakes decisions.
+This project uses a public handwritten-digit benchmark and does not make consequential decisions about people.
 
-For human-related datasets, predictions should be treated as decision support, not labels of a person's ability or worth. Validate subgroup performance, document missingness and measurement bias, preserve privacy, and keep a human reviewer in the loop. For non-human datasets, document domain limits and avoid presenting benchmark performance as universal model quality.
+The main caution is generalization. The images are small, clean, and standardized. A CNN that performs well here may behave very differently on handwriting collected from phones, scanned forms, or real documents.
+
+For practical use, I would test robustness on the actual image source and inspect class-specific errors before relying on the model.
