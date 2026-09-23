@@ -1,21 +1,33 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
-\title{07. Convolutional Neural Network★}
+\title{Convolutional Neural Network for Handwritten Digits}
 \author{Devis W. Saputra}
 \begin{document}
 \maketitle
+
 \begin{abstract}
-This manuscript source accompanies the reproducible GitHub technical report. Numerical findings should be regenerated from the repository before academic use.
+I train a small PyTorch convolutional network on 8 by 8 handwritten digit images. The model uses two convolution and pooling stages before a ten-class output layer.
 \end{abstract}
-\section{Research Objective}
-See the repository README and \texttt{paper/paper.md} for the full research question and rationale.
+
+\section{Question}
+Can a compact CNN use the spatial structure of the digit images effectively?
+
 \section{Data and Method}
-The dataset provenance, processing steps, executable method, validation design, and limitations are documented in the repository.
-\section{Reproducibility}
-Install \texttt{requirements.txt} and execute \texttt{python src/run\_experiment.py}.
+I use a stratified 75/25 split of the scikit-learn digits dataset. Pixels are divided by 16 and reshaped to 1 by 8 by 8 tensors. The network uses 16 and then 32 convolutional channels, max pooling, and a final 128-to-10 linear layer.
+
+\section{Training}
+Training uses batch size 64, Adam with learning rate 0.003, cross-entropy loss, and 14 epochs.
+
+\section{Results}
+The recorded run reaches 0.9600 accuracy and 0.9597 macro-F1.
+
 \section{Limitations}
-This is a portfolio research artifact rather than a peer-reviewed publication. External validation and stronger comparative experiments are required for publication claims.
+The dataset is small and clean. Small numerical differences can also appear across PyTorch and CPU-library versions even when the random seed is fixed.
+
+\section{Reproduction}
+Install \texttt{requirements.txt} and run \texttt{python src/run\_experiment.py}.
+
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
