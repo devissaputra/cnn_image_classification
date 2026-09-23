@@ -1,105 +1,90 @@
-# 07. Convolutional Neural Network ★★★★
+# Convolutional Neural Network for Handwritten Digits
 
-![Cover](assets/01_cover.svg)
+![Project overview](assets/01_cover.svg)
 
-> **Quick description:** Train a compact PyTorch CNN on real handwritten digit images with explicit batching, optimization, and held-out evaluation.
+I built this project to compare a small convolutional network with the fully connected MLP from the previous project.
 
-## Why this project matters
-This AI Engineering project demonstrates how convolutional neural networks preserve and exploit **local spatial structure** in image data. Unlike a fully connected network that immediately flattens the pixels, this model learns spatial feature maps before classification.
+The main difference is that the CNN keeps the two-dimensional image structure intact while it learns local patterns such as edges and strokes.
 
-The project uses the real **Optical Recognition of Handwritten Digits** dataset, normalizes its 8×8 grayscale images, trains a two-stage convolutional network in PyTorch, and evaluates the trained model on a stratified held-out test set.
+## Data
 
-## Dataset
-- **Dataset:** Optical Recognition of Handwritten Digits
-- **Source:** scikit-learn `load_digits`
-- **Samples:** 1,797 digit images
-- **Image shape:** 8×8 grayscale
-- **Classes:** digits 0–9
-- **Normalization:** pixel values divided by 16
-- **Data provenance and usage:** [DATA.md](DATA.md)
+I use scikit-learn's handwritten digits dataset.
 
-## Research pipeline
-![CNN training pipeline](assets/02_data_pipeline.svg)
+- 1,797 grayscale images
+- image size: 8 × 8
+- 10 classes, digits 0 through 9
+- 75% training, 25% test
+- stratified split with random state 42
 
-### Processing steps
-1. Load the real handwritten-digit dataset.
-2. Scale pixel intensities to approximately 0–1 by dividing by 16.
-3. Reshape each sample to `1×8×8`.
-4. Create a stratified 75/25 train-test split.
-5. Train in shuffled mini-batches of 64.
-6. Optimize the CNN with Adam at learning rate `0.003` using cross-entropy loss.
-7. Evaluate the untouched test set with accuracy and macro-F1.
+Pixel values are divided by 16 so the inputs are roughly in the 0 to 1 range.
 
-## CNN architecture
-![CNN architecture](assets/03_data_or_model.svg)
+## How the experiment works
 
-The implemented network is:
+![Training pipeline](assets/02_data_pipeline.svg)
+
+The network is implemented in PyTorch.
 
 ```text
 1 × 8 × 8 input
       ↓
-Conv2d: 1 → 16, 3×3, padding=1
+Conv2d: 1 → 16
 ReLU
-MaxPool2d: 2×2
+MaxPool2d
       ↓
-16 × 4 × 4
-      ↓
-Conv2d: 16 → 32, 3×3, padding=1
+Conv2d: 16 → 32
 ReLU
-MaxPool2d: 2×2
+MaxPool2d
       ↓
 32 × 2 × 2
       ↓
-Flatten = 128 values
+Flatten to 128 values
       ↓
 Linear: 128 → 10
 ```
 
-This architecture progressively reduces spatial resolution while increasing channel depth, allowing the network to learn local stroke patterns before producing ten class logits.
+Training uses:
 
-## Training and held-out evaluation
-![Training and held-out results](assets/04_evaluation_or_results.svg)
+- batch size 64;
+- Adam optimizer;
+- learning rate 0.003;
+- cross-entropy loss;
+- 14 epochs.
 
-Generated metrics from the included experiment:
+## Model structure
 
-```json
-{
-  "accuracy": 0.96,
-  "macro_f1": 0.9596695483330727,
-  "epochs": 14
-}
-```
+![CNN architecture](assets/03_data_or_model.svg)
 
-### Interpretation
-- **Accuracy = 0.9600** means 96% of held-out digit images were classified correctly.
-- **Macro-F1 = 0.9597** is nearly identical to accuracy, indicating performance is broadly balanced across the ten classes.
-- The network was trained for **14 epochs** with Adam and cross-entropy loss.
-- These results are specific to this dataset, split, architecture, and random seed.
+The first convolution learns 16 feature maps. After pooling, the second convolution expands that to 32 feature maps. The final pooled representation contains 128 values, which are passed to a linear layer for the ten digit classes.
 
-## Reproduce
+## Results
+
+![Training and evaluation](assets/04_evaluation_or_results.svg)
+
+The recorded run produced:
+
+| Metric | Result |
+|---|---:|
+| Accuracy | 0.9600 |
+| Macro-F1 | 0.9597 |
+| Epochs | 14 |
+
+Macro-F1 is close to accuracy, so the model is not getting its score from only a few classes.
+
+Because PyTorch kernels and package versions can affect small numerical details, I treat these as the results of the recorded run rather than a promise that every machine will reproduce the final decimals exactly.
+
+## Run it
+
 ```bash
 python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -r requirements.txt
 python src/run_experiment.py
 ```
 
-Metrics are written to `results/metrics.json`.
+On Windows, use `.venv\Scripts\activate`.
 
-## Research documentation
-- [Scientific-style technical report](paper/paper.md)
-- [Quick description](QUICK_DESCRIPTION.md)
-- [Website-ready portfolio entry](PORTFOLIO.md)
-- [Data provenance](DATA.md)
-- [Reproducibility notes](REPRODUCIBILITY.md)
-- [Ethics and responsible use](ETHICS.md)
-- [Citation metadata](CITATION.cff)
+## Repository notes
 
-## Difficulty
-**★★★★ — advanced**
-
-## Academic integrity
-This repository is a research portfolio artifact, not a peer-reviewed publication. Reported metrics are generated by the included code on the stated real dataset.
-
-## Stronger research extension
-A publication-oriented extension would add multiple random seeds, learning-rate and architecture ablations, dropout or weight-decay comparisons, data augmentation, calibration analysis, class-wise error inspection, and direct comparison against MLP and stronger CNN baselines.
+- [DATA.md](DATA.md) explains the dataset.
+- [REPRODUCIBILITY.md](REPRODUCIBILITY.md) records the settings that matter for reruns.
+- [paper/paper.md](paper/paper.md) contains the longer write-up.
