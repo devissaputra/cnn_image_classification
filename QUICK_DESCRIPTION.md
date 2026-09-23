@@ -1,7 +1,6 @@
 # Quick Description
 
-Train a compact PyTorch CNN on real handwritten digit images with explicit batching and evaluation.
+I train a small PyTorch convolutional neural network on 8 × 8 handwritten digit images. The model learns spatial feature maps with two convolution and pooling stages before classifying the ten digits.
 
-**Difficulty:** ★★★★  
-**Dataset:** Optical Recognition of Handwritten Digits dataset  
-**Core skills:** PyTorch, CNN, computer vision, training loop
+**Dataset:** scikit-learn Digits  
+**Main ideas:** PyTorch, CNNs, mini-batch training, image classification
