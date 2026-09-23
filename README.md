@@ -1,78 +1,60 @@
 # Convolutional Neural Network for Handwritten Digits
 
+[![CI](https://github.com/devissaputra/cnn_image_classification/actions/workflows/ci.yml/badge.svg)](https://github.com/devissaputra/cnn_image_classification/actions/workflows/ci.yml)
+
 ![Project overview](assets/01_cover.svg)
 
-I built this project to compare a small convolutional network with the fully connected MLP from the previous project.
-
-The main difference is that the CNN keeps the two-dimensional image structure intact while it learns local patterns such as edges and strokes.
+A compact PyTorch image-classification experiment that asks whether preserving **2D spatial structure** helps beyond a strong flattened linear baseline.
 
 ## Data
 
-I use scikit-learn's handwritten digits dataset.
+- 1,797 handwritten digit images
+- 8 × 8 grayscale pixels
+- 10 classes
+- stratified 75/25 train/test split
+- seed 42
+- pixels scaled to [0, 1]
 
-- 1,797 grayscale images
-- image size: 8 × 8
-- 10 classes, digits 0 through 9
-- 75% training, 25% test
-- stratified split with random state 42
-
-Pixel values are divided by 16 so the inputs are roughly in the 0 to 1 range.
-
-## How the experiment works
+## Baseline and CNN
 
 ![Training pipeline](assets/02_data_pipeline.svg)
 
-The network is implemented in PyTorch.
+### Logistic baseline
+The 8×8 image is flattened to 64 values and classified with logistic regression.
 
+### CNN
 ```text
-1 × 8 × 8 input
-      ↓
-Conv2d: 1 → 16
-ReLU
-MaxPool2d
-      ↓
-Conv2d: 16 → 32
-ReLU
-MaxPool2d
-      ↓
+1 × 8 × 8
+  ↓
+Conv 1→16 + ReLU + MaxPool
+  ↓
+Conv 16→32 + ReLU + MaxPool
+  ↓
 32 × 2 × 2
-      ↓
-Flatten to 128 values
-      ↓
-Linear: 128 → 10
+  ↓
+Flatten (128)
+  ↓
+Linear 128→10
 ```
 
-Training uses:
+The network has **6,090 trainable parameters**.
 
-- batch size 64;
-- Adam optimizer;
-- learning rate 0.003;
-- cross-entropy loss;
-- 14 epochs.
+Training uses Adam, learning rate 0.003, batch size 64, cross-entropy loss, and 14 epochs. The DataLoader uses a seeded generator so batch ordering is reproducible.
 
-## Model structure
+## Recorded results
 
 ![CNN architecture](assets/03_data_or_model.svg)
 
-The first convolution learns 16 feature maps. After pooling, the second convolution expands that to 32 feature maps. The final pooled representation contains 128 values, which are passed to a linear layer for the ten digit classes.
+| Model | Accuracy | Macro-F1 |
+|---|---:|---:|
+| Logistic regression | 0.9622 | 0.9620 |
+| CNN | **0.9733** | **0.9729** |
 
-## Results
+![Held-out evaluation](assets/04_evaluation_or_results.svg)
 
-![Training and evaluation](assets/04_evaluation_or_results.svg)
+Unlike the MLP project, the spatial inductive bias helps here: the CNN improves on the flattened linear baseline. The point is not that CNNs always win, but that architecture should match the structure of the data.
 
-The recorded run produced:
-
-| Metric | Result |
-|---|---:|
-| Accuracy | 0.9600 |
-| Macro-F1 | 0.9597 |
-| Epochs | 14 |
-
-Macro-F1 is close to accuracy, so the model is not getting its score from only a few classes.
-
-Because PyTorch kernels and package versions can affect small numerical details, I treat these as the results of the recorded run rather than a promise that every machine will reproduce the final decimals exactly.
-
-## Run it
+## Run
 
 ```bash
 python -m venv .venv
@@ -81,10 +63,25 @@ pip install -r requirements.txt
 python src/run_experiment.py
 ```
 
-On Windows, use `.venv\Scripts\activate`.
+## Test
 
-## Repository notes
+```bash
+pip install pytest
+pytest
+```
 
-- [DATA.md](DATA.md) explains the dataset.
-- [REPRODUCIBILITY.md](REPRODUCIBILITY.md) records the settings that matter for reruns.
-- [paper/paper.md](paper/paper.md) contains the longer write-up.
+CI uses a one-epoch smoke run plus shape and determinism tests, so the repository checks real behaviour without retraining the full experiment on every commit.
+
+## Engineering details
+
+- import-safe PyTorch module
+- deterministic split and DataLoader generator
+- explicit baseline
+- parameter count reported
+- behavioural tests
+- GitHub Actions CI
+- generated plots written to `results/figures/`, separate from curated SVG assets
+
+## Limitations
+
+The dataset is tiny by modern vision standards. A stronger extension would use repeated seeds, validation-based hyperparameter selection, augmentation, calibration, robustness checks, and a larger image dataset.

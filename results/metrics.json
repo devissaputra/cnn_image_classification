@@ -1,5 +1,13 @@
 {
-  "accuracy": 0.96,
-  "macro_f1": 0.9596695483330727,
-  "epochs": 14
+  "seed": 42,
+  "epochs": 14,
+  "trainable_parameters": 6090,
+  "logistic": {
+    "accuracy": 0.9622222222222222,
+    "macro_f1": 0.9619897319063684
+  },
+  "cnn": {
+    "accuracy": 0.9733333333333334,
+    "macro_f1": 0.9729240570700046
+  }
 }
