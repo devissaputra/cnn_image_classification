@@ -1,8 +1,12 @@
 # Data
 
-**Dataset:** Optical Recognition of Handwritten Digits dataset  
-**Reference page:** https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html
+This project uses scikit-learn's Optical Recognition of Handwritten Digits dataset.
 
-This project uses a real public dataset distributed through the relevant scientific Python dataset loader. The experiment does not replace missing source data with randomly generated observations.
+- 1,797 images
+- image size: 8 × 8
+- 10 classes
+- pixel values range from 0 to 16
 
-For reproducibility, the code loads the dataset programmatically and records the sample size in `results/metrics.json` where applicable. Consult the source page for the original dataset description, citation, and usage terms.
+Source documentation: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html
+
+Before training, pixel values are divided by 16 and each sample is reshaped to a `1 × 8 × 8` tensor for PyTorch.
