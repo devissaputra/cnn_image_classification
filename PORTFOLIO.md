@@ -1,19 +1,9 @@
-# Portfolio Summary
+# Convolutional Neural Network for Handwritten Digits
 
-## Convolutional Neural Network for Handwritten Digits
+**Focus:** whether spatial inductive bias improves on a flattened linear model.
 
-I train a small PyTorch CNN on the same handwritten digit dataset used in the MLP project. This time the image remains two-dimensional while the model learns local feature maps.
+The project compares logistic regression on flattened 8×8 digit images with a compact two-stage PyTorch CNN. The CNN has 6,090 trainable parameters and uses a deterministic seeded DataLoader.
 
-### Images
+The linear baseline reaches 0.9622 accuracy and 0.9620 Macro-F1. The CNN improves to 0.9733 accuracy and 0.9729 Macro-F1. Together with the MLP repo, this shows a more useful lesson than “deep learning wins”: architecture should match data structure, and every complex model should face a strong baseline.
 
-![Project overview](assets/01_cover.svg)
-
-![Training pipeline](assets/02_data_pipeline.svg)
-
-![CNN architecture](assets/03_data_or_model.svg)
-
-![Training and evaluation](assets/04_evaluation_or_results.svg)
-
-**Architecture:** 1×8×8 → Conv16 → Pool → Conv32 → Pool → 128 features → 10 classes.
-
-**Key result:** 0.9600 accuracy and 0.9597 macro-F1 in the recorded run.
+The repository includes behavioural tests, CI, reproducibility notes, and generated learning diagnostics.

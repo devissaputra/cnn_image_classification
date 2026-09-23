@@ -1,6 +1,5 @@
 # Quick Description
 
-I train a small PyTorch convolutional neural network on 8 × 8 handwritten digit images. The model learns spatial feature maps with two convolution and pooling stages before classifying the ten digits.
+A deterministic PyTorch CNN is compared with flattened logistic regression on handwritten digits. The CNN improves held-out accuracy from 0.9622 to 0.9733 while preserving the image's spatial structure.
 
-**Dataset:** scikit-learn Digits  
-**Main ideas:** PyTorch, CNNs, mini-batch training, image classification
+**Main ideas:** PyTorch, CNN, strong baseline, deterministic training, image classification

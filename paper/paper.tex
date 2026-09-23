@@ -1,33 +1,32 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
+\usepackage{booktabs}
 \title{Convolutional Neural Network for Handwritten Digits}
 \author{Devis W. Saputra}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-I train a small PyTorch convolutional network on 8 by 8 handwritten digit images. The model uses two convolution and pooling stages before a ten-class output layer.
+This experiment compares a compact PyTorch CNN with flattened logistic regression on the scikit-learn handwritten-digits benchmark.
 \end{abstract}
 
-\section{Question}
-Can a compact CNN use the spatial structure of the digit images effectively?
-
-\section{Data and Method}
-I use a stratified 75/25 split of the scikit-learn digits dataset. Pixels are divided by 16 and reshaped to 1 by 8 by 8 tensors. The network uses 16 and then 32 convolutional channels, max pooling, and a final 128-to-10 linear layer.
-
-\section{Training}
-Training uses batch size 64, Adam with learning rate 0.003, cross-entropy loss, and 14 epochs.
+\section{Method}
+Images are scaled to [0,1] and split 75/25 with stratification and seed 42. The CNN contains two convolution-pooling stages and a linear head, totaling 6,090 trainable parameters. Training uses Adam, cross-entropy loss, and a seeded DataLoader for deterministic batch ordering.
 
 \section{Results}
-The recorded run reaches 0.9600 accuracy and 0.9597 macro-F1.
+\begin{tabular}{lrr}
+\toprule
+Model & Accuracy & Macro-F1 \\
+\midrule
+Logistic regression & 0.9622 & 0.9620 \\
+CNN & 0.9733 & 0.9729 \\
+\bottomrule
+\end{tabular}
+
+\section{Interpretation}
+Unlike the MLP comparison, the CNN improves on its linear baseline. Preserving local two-dimensional image structure is useful in this setup.
 
 \section{Limitations}
-The dataset is small and clean. Small numerical differences can also appear across PyTorch and CPU-library versions even when the random seed is fixed.
+The benchmark is small. Stronger work would add repeated seeds, validation-based tuning, robustness checks, augmentation, and larger image datasets.
 
-\section{Reproduction}
-Install \texttt{requirements.txt} and run \texttt{python src/run\_experiment.py}.
-
-\bibliographystyle{plain}
-\bibliography{references}
 \end{document}
