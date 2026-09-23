@@ -72,16 +72,12 @@ pytest
 
 CI uses a one-epoch smoke run plus shape and determinism tests, so the repository checks real behaviour without retraining the full experiment on every commit.
 
-## Engineering details
+## Why the CNN helps here
 
-- import-safe PyTorch module
-- deterministic split and DataLoader generator
-- explicit baseline
-- parameter count reported
-- behavioural tests
-- GitHub Actions CI
-- generated plots written to `results/figures/`, separate from curated SVG assets
+The CNN wins by a modest margin, which is exactly the kind of result I wanted to test rather than assume. Keeping the image in two dimensions gives the model access to local spatial structure that the flattened logistic baseline cannot represent directly.
 
-## Limitations
+The gain is real on this split, but it is not large enough to justify broad claims about CNN superiority.
 
-The dataset is tiny by modern vision standards. A stronger extension would use repeated seeds, validation-based hyperparameter selection, augmentation, calibration, robustness checks, and a larger image dataset.
+## What I would test next
+
+The next version would use repeated seeds, a validation set for model selection, augmentation, calibration, robustness checks, and a larger image dataset. I would also compare parameter efficiency so the accuracy gain is weighed against the added computational cost.
