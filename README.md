@@ -1,10 +1,26 @@
 # Convolutional Neural Network for Handwritten Digits
 
+This PyTorch experiment compares a compact convolutional network with a flattened logistic-regression baseline on handwritten digits. The committed run reports 0.9733 accuracy for the CNN and 0.9622 for logistic regression after 14 epochs. The small gain illustrates a possible benefit from preserving spatial structure, while the single-split design and lack of an uncertainty estimate limit the strength of the architectural conclusion.
+
+## Start here
+
+- [Calculations, evidence and verification scope](CALCULATIONS.md)
+- [Figure sources and exact numerical paths](docs/figure_spec.json)
+- [Working paper](paper/paper.md)
+- [Data and provenance](DATA.md)
+
+![Study question, data, design and interpretation](assets/review_overview.svg)
+
+![Defined calculation and source-linked evidence](assets/review_calculations.svg)
+
+**Review scope:** The existing suite requires unavailable dependencies; no full-suite pass is claimed. The complete data/model experiment was not rerun in this review.
+
+## Detailed project documentation
+
 [![CI](https://github.com/devissaputra/cnn_image_classification/actions/workflows/ci.yml/badge.svg)](https://github.com/devissaputra/cnn_image_classification/actions/workflows/ci.yml)
 
 
 **Category:** AI Engineering
-![Project overview](assets/01_cover.svg)
 
 A compact PyTorch image-classification experiment that asks whether preserving **2D spatial structure** helps beyond a strong flattened linear baseline.
 
@@ -19,7 +35,6 @@ A compact PyTorch image-classification experiment that asks whether preserving *
 
 ## Baseline and CNN
 
-![Training pipeline](assets/02_data_pipeline.svg)
 
 ### Logistic baseline
 The 8×8 image is flattened to 64 values and classified with logistic regression.
@@ -45,14 +60,12 @@ Training uses Adam, learning rate 0.003, batch size 64, cross-entropy loss, and 
 
 ## Recorded results
 
-![CNN architecture](assets/03_data_or_model.svg)
 
 | Model | Accuracy | Macro-F1 |
 |---|---:|---:|
 | Logistic regression | 0.9622 | 0.9620 |
 | CNN | **0.9733** | **0.9729** |
 
-![Held-out evaluation](assets/04_evaluation_or_results.svg)
 
 Unlike the MLP project, the spatial inductive bias helps here: the CNN improves on the flattened linear baseline. The point is not that CNNs always win, but that architecture should match the structure of the data.
 

@@ -1,3 +1,7 @@
+# Calculation reading guide: ../CALCULATIONS.md (repository root).
+# Accuracy difference = CNN accuracy - logistic accuracy.
+# The recorded difference is about 1.11 percentage points on one split. This is not an uncertainty interval or evidence of broad image-recognition superiority. The MLP repository uses a different preprocessing setup and is not a direct cross-repository benchmark.
+
 from __future__ import annotations
 
 import json

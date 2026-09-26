@@ -1,5 +1,5 @@
-# Quick Description
+# Convolutional Neural Network for Handwritten Digits
 
-A deterministic PyTorch CNN is compared with flattened logistic regression on handwritten digits. The CNN improves held-out accuracy from 0.9622 to 0.9733 while preserving the image's spatial structure.
+This PyTorch experiment compares a compact convolutional network with a flattened logistic-regression baseline on handwritten digits. The committed run reports 0.9733 accuracy for the CNN and 0.9622 for logistic regression after 14 epochs. The small gain illustrates a possible benefit from preserving spatial structure, while the single-split design and lack of an uncertainty estimate limit the strength of the architectural conclusion.
 
-**Main ideas:** PyTorch, CNN, strong baseline, deterministic training, image classification
+See [CALCULATIONS.md](CALCULATIONS.md) for evidence and verification scope.

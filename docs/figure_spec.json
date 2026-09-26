@@ -1,0 +1,30 @@
+{
+  "question": "Does preserving image structure help digit classification?",
+  "data": "Handwritten digits represented as small 2D images; a shared held-out split.",
+  "method": "Compare flattened logistic regression with a 6,090-parameter CNN trained for 14 epochs.",
+  "formula": "Accuracy difference = CNN accuracy - logistic accuracy.",
+  "interpretation": "The recorded difference is about 1.11 percentage points on one split. This is not an uncertainty interval or evidence of broad image-recognition superiority. The MLP repository uses a different preprocessing setup and is not a direct cross-repository benchmark.",
+  "status": "RECORDED SMALL-SAMPLE BENCHMARK | see validation scope",
+  "source": "results/metrics.json",
+  "rows": [
+    {
+      "label": "logistic",
+      "path": [
+        "logistic",
+        "accuracy"
+      ],
+      "unit": "accuracy ↑"
+    },
+    {
+      "label": "cnn",
+      "path": [
+        "cnn",
+        "accuracy"
+      ],
+      "unit": "accuracy ↑"
+    }
+  ],
+  "table_title": "Selected recorded values (units and context shown)",
+  "evidence_note": "See CALCULATIONS.md for data status, execution scope and interpretation.",
+  "finding": "This PyTorch experiment compares a compact convolutional network with a flattened logistic-regression baseline on handwritten digits. The committed run reports 0.9733 accuracy for the CNN and 0.9622 for logistic regression after 14 epochs. The small gain illustrates a possible benefit from preserving spatial structure, while the single-split design and lack of an uncertainty estimate limit the strength of the architectural conclusion."
+}
